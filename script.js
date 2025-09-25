@@ -43,6 +43,7 @@ function App(userCount){
         },
         hold: function(){
             const player = this.players.get(this.active);
+            if(player.current) alert('주사위를 1회 이상 굴려주세요.');
             player.score += player.current;
             player.scoreEl.textContent = player.score;
             player.current = 0;
@@ -50,7 +51,7 @@ function App(userCount){
             this.switchPlayer();
         },
         rolling: function(){
-            if(this.playing) return;
+            if(this.playing) return alert('주사위를 굴리는 중입니다.');
             controlEl.dice.classList.remove('done');
             const rollingTime = 1500;
             const start = performance.now();
