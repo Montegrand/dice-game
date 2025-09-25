@@ -35,10 +35,19 @@ function App(userCount){
             controlEl.dice.classList.add('done');
             if(val < 3){
                 player.current = 0;
+                player.currentEl.textContent = player.current;
                 return this.switchPlayer();
             };
             player.current += val;
             player.currentEl.textContent = player.current;
+        },
+        hold: function(){
+            const player = this.players.get(this.active);
+            player.score += player.current;
+            player.scoreEl.textContent = player.score;
+            player.current = 0;
+            player.currentEl.textContent = 0;
+            this.switchPlayer();
         },
         rolling: function(){
             if(this.playing) return;
@@ -51,7 +60,6 @@ function App(userCount){
                 let randomNb = Math.floor(Math.random()*6) + 1;
                 Array.apply(null, controlEl.diceDots).forEach((dot, idx)=>{
                     const chk = diceFace[randomNb].includes(idx);
-                    console.log(dot, idx, chk)
                     if(chk) dot.classList.add('isActive');
                     else dot.classList.remove('isActive');
                 })
@@ -104,9 +112,10 @@ function App(userCount){
     store.switchPlayer();
 
     const rolling = ()=>store.rolling();
-
+    const hold = ()=>store.hold();
 
     controlEl.roll.addEventListener('click',rolling);
+    controlEl.hold.addEventListener('click',hold);
 };
 
 function partiInput(){
