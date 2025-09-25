@@ -17,7 +17,7 @@ body{min-height:100vh;margin:0;background:linear-gradient(135deg, #0f2027, #203a
 
 /* Controller */
 .dice-controller{display:flex;position:absolute;top:0;right:0;bottom:0;left:0;flex-direction:column;justify-content:center;align-items:center;width:240px;height:80%;margin:auto}
-.dice-controller button{height:36px;border:none;border-radius:18px;background-color:#fafafa;line-height:normal;vertical-align:center}
+.dice-controller button{height:36px;border:none;border-radius:18px;background-color:#fafafa;line-height:normal;vertical-align:center;padding:4px 8px 3px;}
 .dice-controller_reset{}
 .dice-controller_dice{display:grid;width:150px;height:150px;margin:40px 0 80px;padding:16px;border:3px solid gray;border-radius:.4rem;box-sizing:border-box;background-color:#fff;grid-template-columns:repeat(3, 1fr);grid-template-rows:repeat(3, 1fr);place-items:center}
 .dice-controller_dice.rolling{border-color:tomato}
