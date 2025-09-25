@@ -43,7 +43,7 @@ function App(userCount){
         },
         hold: function(){
             const player = this.players.get(this.active);
-            if(player.current) alert('주사위를 1회 이상 굴려주세요.');
+            if(!player.current) return alert('주사위를 1회 이상 굴려주세요.');
             player.score += player.current;
             player.scoreEl.textContent = player.score;
             player.current = 0;
