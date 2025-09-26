@@ -25,12 +25,15 @@ function App(userCount){
         6: [0, 2, 3, 5, 6, 8],
     }
 
+    const listeners = new AbortController();
 
     const store = {
         active: 1,
         playing: null,
+        gameOver: false,
         players: new Map(),
         setCurrunt: function(val){
+            if(this.gameOver) return;
             const player = this.players.get(this.active);
             controlEl.dice.classList.add('done');
             if(val < 3){
@@ -42,6 +45,7 @@ function App(userCount){
             player.currentEl.textContent = player.current;
         },
         hold: function(){
+            if(this.gameOver) return;
             const player = this.players.get(this.active);
             if(!player.current) return alert('주사위를 1회 이상 굴려주세요.');
             player.score += player.current;
@@ -49,8 +53,18 @@ function App(userCount){
             player.current = 0;
             player.currentEl.textContent = 0;
             this.switchPlayer();
+            if(player.score >= 50) return this.done(player);
+        },
+        reset: function(){
+            App(partiInput());
+        },
+        done: function(player){
+            this.gameOver = true;
+            window.alert(`${player.name} Win!`)
+            if(window.confirm('다시 시작하시겠습니까?')) return this.reset();
         },
         rolling: function(){
+            if(this.gameOver) return;
             if(this.playing) return alert('주사위를 굴리는 중입니다.');
             controlEl.dice.classList.remove('done');
             const rollingTime = 1500;
@@ -71,6 +85,7 @@ function App(userCount){
                 };
                 this.playing = null;
                 controlEl.dice.classList.remove('rolling');
+                // this.setCurrunt(50);  테스트용으로 바로 끝내기
                 this.setCurrunt(randomNb);
             };
             this.playing = setTimeout(step,0);
@@ -101,6 +116,7 @@ function App(userCount){
         wrap.appendChild(box);
 
         const player = {
+            name: box.querySelector('.dice-user_name').textContent,
             score: 0,
             current: 0,
             scoreEl: box.querySelector(".dice-user_score span"),
@@ -112,9 +128,11 @@ function App(userCount){
     };
     store.switchPlayer();
 
+    const reset = ()=>store.reset();
     const rolling = ()=>store.rolling();
     const hold = ()=>store.hold();
 
+    controlEl.new.addEventListener('click',reset);
     controlEl.roll.addEventListener('click',rolling);
     controlEl.hold.addEventListener('click',hold);
 };
