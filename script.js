@@ -25,8 +25,6 @@ function App(userCount){
         6: [0, 2, 3, 5, 6, 8],
     }
 
-    const listeners = new AbortController();
-
     const store = {
         active: 1,
         playing: null,
